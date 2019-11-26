@@ -44,25 +44,52 @@ final class GameInputLoader {
             nrOfPlayers = fs.nextInt();
             for (Integer i = 0; i < nrOfPlayers; ++i) {
                     race = fs.nextWord();
-                    xCoordinate = fs.nextInt();
                     yCoordinate = fs.nextInt();
-                    Player player = new Player();
-                    player.setType(race);
-                    player.setCoordinateX(xCoordinate);
-                    player.setCoordinateY(yCoordinate);
-                    player.setTerrain(gameMap.get(xCoordinate).get(yCoordinate));
-                    players.add(player);
+                    xCoordinate = fs.nextInt();
+                    //Player player = new Player();
+                    if (race.equals("R")) {
+                        Player player = new Rogue();
+                        player.setType(race);
+                        player.setCoordinateX(xCoordinate);
+                        player.setCoordinateY(yCoordinate);
+                        player.setTerrain(gameMap.get(xCoordinate).get(yCoordinate));
+                        players.add(player);
+                    } else if (race.equals("W")) {
+                        Player player = new Wizard();
+                        player.setType(race);
+                        player.setCoordinateX(xCoordinate);
+                        player.setCoordinateY(yCoordinate);
+                        player.setTerrain(gameMap.get(xCoordinate).get(yCoordinate));
+                        players.add(player);
+                    } else if (race.equals("K")) {
+                        Player player = new Knight();
+                        player.setType(race);
+                        player.setCoordinateX(xCoordinate);
+                        player.setCoordinateY(yCoordinate);
+                        player.setTerrain(gameMap.get(xCoordinate).get(yCoordinate));
+                        players.add(player);
+                    } else {
+                        Player player = new Pyromancer();
+                        player.setType(race);
+                        player.setCoordinateX(xCoordinate);
+                        player.setCoordinateY(yCoordinate);
+                        player.setTerrain(gameMap.get(xCoordinate).get(yCoordinate));
+                        players.add(player);
+                    }
             }
-
             nrRounds = fs.nextInt();
+            int playerNumber = 0;
             for (Integer i = 0; i < nrRounds; ++i) {
                 ArrayList<Character> myArray = new ArrayList<>();
                 String myString = fs.nextWord();
                 char[] direction = myString.toCharArray();
                 for (char iterator : direction) {
                     myArray.add(iterator);
+                    players.get(playerNumber).getDirections().add(iterator);
+                    playerNumber++;
                 }
                 directions.add(i, myArray);
+                playerNumber = 0;
             }
 
             fs.close();
