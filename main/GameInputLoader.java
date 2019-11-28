@@ -1,21 +1,34 @@
-//package com.tema2.main;
+package main;
 import fileio.FileSystem;
+import heroes.Player;
+import heroes.Rogue;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Wizard;
 
 import java.util.ArrayList;
 
 final class GameInputLoader {
     private final String mInputPath;
     private final String mOutputPath;
+    private FileSystem fs = null;
 
     GameInputLoader(final String inputPath, final String outputPath) {
         mInputPath = inputPath;
         mOutputPath = outputPath;
+        try {
+            fs = new FileSystem(mInputPath, mOutputPath);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 
+    public FileSystem getFs() {
+        return fs;
+    }
 
     GameInput load() {
-        Integer nrLines = 0;
-        Integer nrColumns;
+        Integer nrLines;
         ArrayList<ArrayList<Character>> gameMap = new ArrayList<>();
         Integer nrOfPlayers = 0;
         Integer nrRounds = 0;
@@ -26,15 +39,15 @@ final class GameInputLoader {
         int yCoordinate;
 
         try {
-            FileSystem fs = new FileSystem(mInputPath, mOutputPath);
             nrLines = fs.nextInt();
             fs.nextInt();
+
             // Creating Map
-            for(Integer i = 0; i < nrLines; ++i) {
+            for (Integer i = 0; i < nrLines; ++i) {
                 ArrayList<Character> myArray = new ArrayList<Character>();
                 String myString = fs.nextWord();
                 char[] moves = myString.toCharArray();
-                for(char iterator : moves) {
+                for (char iterator : moves) {
                     myArray.add(iterator);
                 }
                 gameMap.add(i, myArray);
@@ -46,7 +59,6 @@ final class GameInputLoader {
                     race = fs.nextWord();
                     yCoordinate = fs.nextInt();
                     xCoordinate = fs.nextInt();
-                    //Player player = new Player();
                     if (race.equals("R")) {
                         Player player = new Rogue();
                         player.setType(race);
@@ -91,8 +103,6 @@ final class GameInputLoader {
                 directions.add(i, myArray);
                 playerNumber = 0;
             }
-
-            fs.close();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
